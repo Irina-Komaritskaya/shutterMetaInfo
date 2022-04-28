@@ -36,6 +36,19 @@ function snowFall() {
 
   const links = container.getElementsByTagName("a");
 
+  const keysSelected = [];
+  const keyHandler = (key, e) => {
+    const index = keysSelected.indexOf(key);
+    if (index >= 0) {
+      keysSelected.splice(index, 1);
+      e.target.style.backgroundColor = "#4056A1";
+    } else {
+      keysSelected.push(key);
+      e.target.style.backgroundColor = "green";
+    }
+    console.log(e.target);
+  };
+
   for (let i = 0; i < links.length; i++) {
     const link = links[i].href;
 
@@ -52,11 +65,12 @@ function snowFall() {
       if (keys === undefined || keys === null) {
         return;
       }
+      const description = asset.description;
 
-      const item = links[i].parentElement;
+      const itemImg = links[i].parentElement;
 
       const pin = document.createElement("div");
-      pin.setAttribute("id", "pin");
+      pin.setAttribute("id", `pin_${i}`);
       pin.textContent = "i";
       pin.style.position = "absolute";
       pin.style.bottom = "10px";
@@ -67,37 +81,69 @@ function snowFall() {
       pin.style.borderRadius = "20px";
       pin.style.textAlign = "center";
       pin.style.fontSize = "15px";
-	  pin.style.zIndex = "10";
-	  pin.style.cursor = "pointer";
-      item.append(pin);
+      pin.style.zIndex = "10";
+      pin.style.cursor = "pointer";
+      itemImg.append(pin);
 
+      let clickedId = null;
       const pinHandler = (e) => {
         e.stopPropagation();
-		
+
+        if (document.getElementById("information")) {
+          document.getElementById("information").remove();
+        }
+        if (clickedId === e.srcElement.id) {
+          clickedId = null;
+          return;
+        }
+        clickedId = e.srcElement.id;
         const information = document.createElement("div");
         information.setAttribute("id", "information");
-		information.style.display = "flex";
-        information.style.width = "300px";
-        information.style.height = "200px";
-        information.style.backgroundColor = "#00BFFF";
+        information.style.display = "flex";
+        information.style.flexDirection = "column";
+        information.style.padding = "10px";
+        information.style.width = "600px";
+        information.style.backgroundColor = "#EFE2BA";
         information.style.position = "absolute";
-		information.style.zIndex = "10";
-		information.style.top = (e.pageY-230) + "px";
-		information.style.left = (e.pageX+30) + "px";
+        information.style.zIndex = "10";
+        information.style.top = e.pageY - 230 + "px";
+        information.style.left = e.pageX + 20 + "px";
         container.append(information);
-		
+
+        const keysDiv = document.createElement("div");
+        keysDiv.setAttribute("id", "keys");
+        keysDiv.style.backgroundColor = "white";
+        keysDiv.style.display = "flex";
+        keysDiv.style.flexDirection = "row";
+        keysDiv.style.flexWrap = "wrap";
+        keysDiv.style.padding = "10px";
+        keys.forEach((key) => {
+          const item = document.createElement("div");
+          item.setAttribute("class", "item");
+          item.style.marginLeft = "10px";
+          item.style.marginTop = "3px";
+          item.style.padding = "5px";
+          item.style.color = "white";
+          item.style.borderRadius = "10px";
+          item.style.backgroundColor = "#4056A1";
+          item.style.cursor = "pointer";
+          item.innerHTML = key;
+          keysDiv.appendChild(item);
+          item.addEventListener("click", (e) => keyHandler(key, e));
+        });
+        information.appendChild(keysDiv);
+
+        const descriptionDiv = document.createElement("div");
+        descriptionDiv.setAttribute("id", "description");
+        descriptionDiv.style.backgroundColor = "#D79922";
+        descriptionDiv.style.marginTop = "10px";
+        descriptionDiv.style.color = "white";
+        descriptionDiv.style.padding = "10px";
+        descriptionDiv.innerHTML = description;
+        information.appendChild(descriptionDiv);
       };
 
       pin.addEventListener("click", pinHandler);
-
-      const infoDiv = document.createElement("div");
-      infoDiv.setAttribute("class", "infoContainer");
-      infoDiv.textContent = keys;
-      item.append(infoDiv);
-      infoDiv.style.position = "absolute";
-      infoDiv.style.zIndex = "10";
-      infoDiv.style.top = "0";
-      infoDiv.style.left = "0";
     });
   }
 }
