@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "chrome-extension-hot-reload": "^0.2.2",
     "crx-hotreload": "^1.0.6"
   }
 }

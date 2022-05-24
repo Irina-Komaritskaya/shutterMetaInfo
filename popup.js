@@ -1,20 +1,21 @@
 // получаем доступ к кнопке
-let snow = document.getElementById("snow");
+let start = document.getElementById("startBtn");
+let keysSelect = document.getElementById("keys");
+
+let a = "text";
 // когда кнопка нажата — находим активную вкладку и запускаем нужную функцию
-snow.addEventListener("click", async () => {
+start.addEventListener("click", async () => {
   // получаем доступ к активной вкладке
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   // выполняем скрипт
   chrome.scripting.executeScript({
     // скрипт будет выполняться во вкладке, которую нашли на предыдущем этапе
     target: { tabId: tab.id },
-    // вызываем функцию, в которой лежит запуск снежинок
-    function: snowFall,
+    function: startScript,
   });
 });
 
-// запускаем снег
-function snowFall() {
+function startScript() {
   const container = document.querySelector(
     '[data-automation="AssetGrids_MosaicAssetGrid_div"]'
   );
@@ -37,6 +38,8 @@ function snowFall() {
   const links = container.getElementsByTagName("a");
 
   const keysSelected = [];
+  //   const descriptionSelected = [];
+
   const keyHandler = (key, e) => {
     const index = keysSelected.indexOf(key);
     if (index >= 0) {
@@ -46,7 +49,6 @@ function snowFall() {
       keysSelected.push(key);
       e.target.style.backgroundColor = "green";
     }
-    console.log(e.target);
   };
 
   for (let i = 0; i < links.length; i++) {
@@ -71,18 +73,8 @@ function snowFall() {
 
       const pin = document.createElement("div");
       pin.setAttribute("id", `pin_${i}`);
+      pin.setAttribute("class", "pin");
       pin.textContent = "i";
-      pin.style.position = "absolute";
-      pin.style.bottom = "10px";
-      pin.style.left = "10px";
-      pin.style.width = "20px";
-      pin.style.height = "20px";
-      pin.style.backgroundColor = "#00BFFF";
-      pin.style.borderRadius = "20px";
-      pin.style.textAlign = "center";
-      pin.style.fontSize = "15px";
-      pin.style.zIndex = "10";
-      pin.style.cursor = "pointer";
       itemImg.append(pin);
 
       let clickedId = null;
@@ -99,35 +91,22 @@ function snowFall() {
         clickedId = e.srcElement.id;
         const information = document.createElement("div");
         information.setAttribute("id", "information");
-        information.style.display = "flex";
-        information.style.flexDirection = "column";
-        information.style.padding = "10px";
-        information.style.width = "600px";
-        information.style.backgroundColor = "#EFE2BA";
-        information.style.position = "absolute";
-        information.style.zIndex = "10";
         information.style.top = e.pageY - 230 + "px";
         information.style.left = e.pageX + 20 + "px";
         container.append(information);
 
         const keysDiv = document.createElement("div");
         keysDiv.setAttribute("id", "keys");
-        keysDiv.style.backgroundColor = "white";
-        keysDiv.style.display = "flex";
-        keysDiv.style.flexDirection = "row";
-        keysDiv.style.flexWrap = "wrap";
-        keysDiv.style.padding = "10px";
+
         keys.forEach((key) => {
           const item = document.createElement("div");
           item.setAttribute("class", "item");
-          item.style.marginLeft = "10px";
-          item.style.marginTop = "3px";
-          item.style.padding = "5px";
-          item.style.color = "white";
-          item.style.borderRadius = "10px";
-          item.style.backgroundColor = "#4056A1";
-          item.style.cursor = "pointer";
           item.innerHTML = key;
+          if (keysSelected.find((x) => x === key)) {
+            item.style.backgroundColor = "green";
+          } else {
+            item.style.backgroundColor = "#4056A1";
+          }
           keysDiv.appendChild(item);
           item.addEventListener("click", (e) => keyHandler(key, e));
         });
@@ -135,14 +114,10 @@ function snowFall() {
 
         const descriptionDiv = document.createElement("div");
         descriptionDiv.setAttribute("id", "description");
-        descriptionDiv.style.backgroundColor = "#D79922";
-        descriptionDiv.style.marginTop = "10px";
-        descriptionDiv.style.color = "white";
-        descriptionDiv.style.padding = "10px";
+
         descriptionDiv.innerHTML = description;
         information.appendChild(descriptionDiv);
       };
-
       pin.addEventListener("click", pinHandler);
     });
   }

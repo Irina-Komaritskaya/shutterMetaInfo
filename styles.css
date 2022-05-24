@@ -1,3 +1,10 @@
+.wrap{
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  width: "400px";
+  background-color: #EFE2BA;
+}
 button {
     font-size: 12px;
     height: 40px;
