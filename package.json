@@ -1,5 +1,3 @@
 {
-  "dependencies": {
-    "crx-hotreload": "^1.0.6"
-  }
+  "dependencies": {}
 }
