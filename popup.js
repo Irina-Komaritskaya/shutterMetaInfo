@@ -19,6 +19,7 @@ function startScript() {
   const container = document.querySelector(
     '[data-automation="AssetGrids_MosaicAssetGrid_div"]'
   );
+  console.log(container);
   async function getData(url) {
     const response = await fetch(url, {
       method: "GET",
@@ -49,6 +50,7 @@ function startScript() {
       keysSelected.push(key);
       e.target.style.backgroundColor = "green";
     }
+    console.log(keysSelected);
   };
 
   for (let i = 0; i < links.length; i++) {
