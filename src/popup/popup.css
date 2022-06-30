@@ -1,12 +1,16 @@
-.wrap{
+.wrap {
   display: flex;
   padding: 10px;
   flex-direction: column;
-  width: "400px";
-  background-color: #EFE2BA;
+  width: 200px;
+  background-color: #632e6c;
 }
-button {
-    font-size: 12px;
-    height: 40px;
-    width: 80px;
-  }
+
+.btn {
+  background-color: #9c27b0;
+  margin-top: 5px;
+  color: white;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+}

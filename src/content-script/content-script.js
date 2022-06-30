@@ -1,5 +1,6 @@
 import { checkboxHandler } from "./selected-image";
-
+import { modal } from "../modal/modal";
+modal();
 const container = document.querySelector(
     '[data-automation="AssetGrids_MosaicAssetGrid_div"]'
 );
@@ -13,4 +14,5 @@ for (let i = 0; i < links.length; i++) {
     checkbox.setAttribute("class", "checkbox");
     item.append(checkbox);
     item.addEventListener("change", checkboxHandler);
+    item.addEventListener("change", modal);
 }

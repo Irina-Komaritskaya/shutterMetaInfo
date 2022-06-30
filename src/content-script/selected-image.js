@@ -3,10 +3,8 @@ import { getMetaData } from "../request";
 export const checkboxHandler = (e) => {
     const id = e.target.parentElement.getElementsByTagName("a")[0].href;
     if (e.target.checked) {
-        console.log("CHECED");
         isChecked(e).then((keywords) => {
             const [sorted, notSorted] = sortKeywords(keywords);
-
             chrome.storage.local.get(["keywords"], function (result) {
                 let arr =
                     Object.entries(result.keywords).length === 0
@@ -20,7 +18,7 @@ export const checkboxHandler = (e) => {
                         notSellKeywords: sorted,
                     },
                 ];
-
+                console.log(arr);
                 chrome.storage.local.set({ keywords: arr });
             });
         });

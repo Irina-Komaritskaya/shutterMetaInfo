@@ -1,4 +1,4 @@
-import { extractData } from "./utils/extract-data";
+import { extractData } from "./content-script/extract-data";
 const getData = async (url) => {
     const response = await fetch(url, {
         method: "GET",
