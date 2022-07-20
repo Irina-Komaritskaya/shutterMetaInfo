@@ -1,0 +1,16 @@
+.wrap {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  width: 200px;
+  background-color: #632e6c;
+}
+
+.btn {
+  background-color: #9c27b0;
+  margin-top: 5px;
+  color: white;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+}
